@@ -14,7 +14,7 @@ GOGET=$(GOCMD) get
 BINARY_NAME=vm-operator
 REPO=github.com/VictoriaMetrics/operator
 OPERATOR_BIN=operator-sdk
-DOCKER_REPO=victoriametrics/operator
+DOCKER_REPO=231290928314.dkr.ecr.us-east-1.amazonaws.com/external_mirrors
 TEST_ARGS=$(GOCMD) test -covermode=atomic -coverprofile=coverage.txt -v
 APIS_BASE_PATH=api/v1beta1
 YAML_DROP_PREF=spec.versions[0].schema.openAPIV3Schema.properties.spec.properties

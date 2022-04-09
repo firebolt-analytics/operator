@@ -3,10 +3,22 @@ on:
   release:
     types:
       - created
+
+env:
+  AWS_REGION: "us-east-1"
+  AWS_ACCOUNT_ID: "231290928314" # publishing
+  IAM_ROLE_NAME: "github-actions-publishing"
+  ECR_REPO_NAME: "231290928314.dkr.ecr.us-east-1.amazonaws.com/external_mirrors"
+
 jobs:
   release:
     name: Release on GitHub
     runs-on: ubuntu-18.04
+
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
@@ -49,12 +61,20 @@ jobs:
 #          echo "environment-kubeconfig:" ${KUBECONFIG}
 #          make e2e-local
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.IAM_ROLE_NAME }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: build crosscompile and push to remote registry
         env:
           TAG:   ${{ env.GITHUB_REF_SLUG }}
         run: |
-          echo ${{secrets.REPO_KEY}} | docker login --username ${{secrets.REPO_USER}} --password-stdin
           make publish-via-docker
 
 
