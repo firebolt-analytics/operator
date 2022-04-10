@@ -143,15 +143,15 @@ type BasicAuth struct {
 	// for authentication.
 	// It must be at them same namespace as CRD
 	// +optional
-	Username v1.SecretKeySelector `json:"username,omitempty"`
+	Username *v1.SecretKeySelector `json:"username,omitempty"`
 	// The secret in the service scrape namespace that contains the password
 	// for authentication.
 	// It must be at them same namespace as CRD
 	// +optional
-	Password v1.SecretKeySelector `json:"password,omitempty"`
+	Password *v1.SecretKeySelector `json:"password,omitempty"`
 	// PasswordFile defines path to password file at disk
 	// +optional
-	PasswordFile string `json:"password_file,omitempty"`
+	PasswordFile *string `json:"password_file,omitempty"`
 }
 
 // ServiceSpec defines additional service for CRD with user-defined params.
