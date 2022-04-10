@@ -765,7 +765,7 @@ func (cb *configBuilder) buildBasicAuth(basicAuth *operatorv1beta1.BasicAuth) (y
 			Value: string(p),
 		})
   }
-  if basicAuth.PasswordFile != nil {
+  if len(basicAuth.PasswordFile) > 0 {
 		r = append(r, yaml.MapItem{
 			Key:   "password_file",
 			Value: basicAuth.PasswordFile,
